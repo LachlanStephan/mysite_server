@@ -18,5 +18,7 @@
         }
     }
 
+    isLocal();
+
     echo json_encode($res);
 ?>
