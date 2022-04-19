@@ -1,24 +1,14 @@
 <?php
     require(__DIR__ . '/env.php');
+    require(__DIR__ . '/checkEnv.php');
 
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: GET, POST');
     header("Access-Control-Allow-Headers: X-Requested-With");
 
-    function isLocal() 
-    {
-        $local = [
-            '127.0.0.1',
-            '::1'
-        ];
+    $env = isLocal();
 
-        if (in_array($_SERVER['REMOTE_ADDR'], $local)) {
-            return true;
-        }
-        return false;
-    }
-
-    if (isLocal()) {
+    if ($env['isDev']) {
         $host = $vars['host'];
         $database = $vars['database'];
         $username = $vars['username'];
