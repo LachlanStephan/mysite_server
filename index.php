@@ -1,7 +1,4 @@
 <?php
-    require(__DIR__ . '/env.php');
-    require(__DIR__ . '/checkEnv.php');
-
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: GET, POST');
     header("Access-Control-Allow-Headers: X-Requested-With");
@@ -15,6 +12,7 @@
         ];
 
         if (in_array($_SERVER['REMOTE_ADDR'], $local)) {
+            require(__DIR__ . '/env.php');
             return true;
         } return false;
     }
