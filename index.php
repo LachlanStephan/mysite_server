@@ -6,9 +6,20 @@
     header('Access-Control-Allow-Methods: GET, POST');
     header("Access-Control-Allow-Headers: X-Requested-With");
 
-    $env = isLocal();
+    
+    function isLocal() 
+    {
+        $local = [
+            '127.0.0.1',
+            '::1'
+        ];
 
-    if ($env['isDev']) {
+        if (in_array($_SERVER['REMOTE_ADDR'], $local)) {
+            return true;
+        } return false;
+    }
+
+    if (isLocal()) {
         $host = $vars['host'];
         $database = $vars['database'];
         $username = $vars['username'];
