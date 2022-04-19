@@ -1,4 +1,6 @@
 <?php 
+    require(__DIR__ . './index');
+
     $res = [
         'isProd' => false,
         'isDev' => false
