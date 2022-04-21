@@ -12,12 +12,12 @@
         ];
 
         if (in_array($_SERVER['REMOTE_ADDR'], $local)) {
-            require(__DIR__ . '/env.php');
             return true;
         } return false;
     }
 
     if (isLocal()) {
+        require(__DIR__ . '/env.php');
         $host = $vars['host'];
         $database = $vars['database'];
         $username = $vars['username'];
