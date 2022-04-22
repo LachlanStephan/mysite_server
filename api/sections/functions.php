@@ -3,14 +3,14 @@
     {
         global $conn;
 
-        $sql = "INSERT INTO section (title, content)
+        $sql = "INSERT INTO section (title, description)
         VALUES
-        (:t, :c)";
+        (:t, :d)";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
             ':t' => $data['title'],
-            ':c' => $data['content'],
+            ':d' => $data['description'],
         ]);
 
         if (!empty($conn->lastInsertId())) {

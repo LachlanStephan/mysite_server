@@ -11,7 +11,7 @@
     if (!empty($_POST)) {
         $form_data = [
             'title' => sanitizeData($_POST['title_input_section']),
-            'content' => sanitizeData($_POST['content_input_section']),
+            'description' => sanitizeData($_POST['desc_input_section']),
         ];
 
         if (insertNewSection($form_data)) {
