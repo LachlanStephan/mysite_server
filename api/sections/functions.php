@@ -24,7 +24,7 @@
     {
         global $conn;
 
-        $sql = "SELECT * FROM section ORDER BY section_id DESC"; // add limit later
+        $sql = "SELECT * FROM section ORDER BY section_id DESC"; // add limit later 10?
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -32,6 +32,11 @@
         $rows = $stmt->fetchAll();
 
         return $rows;
+    }
+
+    function updateSection($data) 
+    {
+        //
     }
 
 ?>

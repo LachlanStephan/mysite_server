@@ -35,4 +35,9 @@
         return $rows;
     }
 
+    function updateBlog($data) 
+    {
+        //
+    }
+
 ?>
