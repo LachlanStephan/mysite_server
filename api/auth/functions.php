@@ -18,7 +18,7 @@ function validatePass($pass)
     ]);
 
     $row = $stmt->fetch();
-    if ($row['password'] === $pass) {
+    if (password_verify($pass, $row['password'])) {
         return true;
     } else {
         return false;
