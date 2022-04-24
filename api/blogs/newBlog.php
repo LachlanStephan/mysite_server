@@ -9,7 +9,6 @@
     ];
 
     if(!empty($_POST)) {
-
         $form_data = [
             'title' => sanitizeData($_POST['title_input_blog']),
             'description' => sanitizeData($_POST['desc_input_blog']),
@@ -20,8 +19,7 @@
             $res['status'] = 202;
             $res['msg'] = "Success";
         }
-
-        echo json_encode($res);
     }
 
+    echo json_encode($res);
 ?>

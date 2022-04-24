@@ -37,7 +37,23 @@
 
     function updateBlog($data) 
     {
-        //
+        global $conn;
+
+        $sql = "UPDATE blog SET title = :t, content = :c, description = :d WHERE blog_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':t' => $data['title'],
+            ':c' => $data['content'],
+            ':d' => $data['description'],
+            ':id' => $data['id'],
+        ]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 ?>

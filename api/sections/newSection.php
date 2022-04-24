@@ -18,8 +18,7 @@
             $res['status'] = 202;
             $res['msg'] = 'success';
         }
-
-        echo json_encode($res);
     }
-
+    
+    echo json_encode($res);
 ?>

@@ -7,5 +7,4 @@
             $d = htmlentities($d);
             return $d;
     }
-
 ?>
