@@ -36,7 +36,22 @@
 
     function updateSection($data) 
     {
-        //
+        global $conn;
+
+        $sql = "UPDATE section SET title = :t, description = :d WHERE section_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':t' => $data['title'],
+            ':d' => $data['description'],
+            ':id' => $data['id'],
+        ]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 ?>
