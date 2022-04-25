@@ -25,7 +25,7 @@
     {
         global $conn;
 
-        $sql = "SELECT * FROM blog ORDER BY blog_id DESC"; // will need to limit at some point
+        $sql = "SELECT * FROM blog ORDER BY blog_id DESC"; 
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();

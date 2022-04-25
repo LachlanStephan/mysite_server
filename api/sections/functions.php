@@ -24,7 +24,7 @@
     {
         global $conn;
 
-        $sql = "SELECT * FROM section ORDER BY section_id DESC"; // add limit later 10?
+        $sql = "SELECT * FROM section ORDER BY section_id ASC";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
