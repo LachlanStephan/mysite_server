@@ -56,4 +56,20 @@
         }
     }
 
+    function getRequestedBlog($id)
+    {
+        global $conn;
+
+        $sql = "SELECT content FROM blog WHERE blog_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':id' => $id,
+        ]);
+
+        $row = $stmt->fetch();
+
+        return $row;
+    }
+
 ?>

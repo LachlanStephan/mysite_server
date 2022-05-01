@@ -1,0 +1,138 @@
+* {
+	/* font-family: "Architects Daughter", cursive; */
+	font-family: "Ubuntu Mono", monospace;
+	--delay: 0.3s ease;
+	--dark: rgb(20, 20, 20);
+	--light: rgb(226, 222, 222);
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	background-color: var(--dark);
+	color: var(--light);
+	transition: var(--delay);
+}
+
+.lightMode {
+	color: var(--dark);
+	background-color: var(--light);
+	transition: var(--delay);
+}
+
+main,
+header,
+footer {
+	width: 33.3%;
+	margin: 0 auto;
+	display: block;
+}
+
+p {
+	font-size: 18px;
+}
+
+form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+input,
+textarea {
+	border-radius: 5px;
+	min-height: 1rem;
+}
+
+label {
+	margin: 1rem 0rem 0.2rem 0rem;
+}
+
+textarea {
+	min-height: 3rem;
+	width: 100%;
+}
+
+.submitBtn {
+	width: 3rem;
+}
+
+.fa-solid:hover {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#blog_main {
+	display: none;
+}
+
+.link:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.active {
+	text-decoration: underline;
+}
+
+#mail_response {
+	display: none;
+}
+
+button {
+	margin: 1rem 0;
+}
+
+.admin_header {
+	padding: 2rem 0;
+}
+
+#blog_main section:hover {
+	cursor: pointer;
+}
+
+#loader {
+	display: none;
+	padding: 1rem 0rem;
+	margin: 0 auto;
+}
+
+#no_content {
+	padding: 1rem 0rem;
+}
+
+.blog_header {
+	margin: 1rem auto;
+}
+
+.blog_back_btn {
+	color: inherit;
+	border: none;
+	background: none;
+}
+
+.blog_back_btn:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+/* Media query stuffs */
+@media (max-width: 1000px) {
+	main,
+	header,
+	footer {
+		width: 60%;
+	}
+}
+
+@media (max-width: 600px) {
+	main,
+	header,
+	footer {
+		width: 80%;
+	}
+}
