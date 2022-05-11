@@ -72,4 +72,15 @@
         return $row;
     }
 
+    function workOutReadTime($blog)
+    {
+        $count =  str_word_count($blog);
+
+        $time = ($count / 200);
+
+        $parts = explode('.', $time);
+
+        return  $parts[0] < 1 ? '1 min read' : $parts[0] . 'min read';
+    }
+
 ?>

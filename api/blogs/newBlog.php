@@ -5,7 +5,8 @@
 
     $res = [
         'status' => 401,
-        'msg' => 'Rejected'
+        'msg' => 'Rejected',
+        'read_time' => 0,
     ];
 
     if(!empty($_POST)) {
@@ -15,7 +16,12 @@
             'content' => sanitizeData($_POST['content_blog']),
         ];
 
+        $read_time = workOutReadTime($form_data['content']);
+
+        $form_data['title'] = $form_data['title'] . " " . "-" . " " . $read_time;
+
         if (insertNewBlog($form_data)) {
+            $res['read_time'] = $read_time;
             $res['status'] = 202;
             $res['msg'] = "Success";
         }

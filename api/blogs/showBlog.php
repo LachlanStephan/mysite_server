@@ -19,8 +19,9 @@
     </head>
     <body 
        class = "<?php
-            if ($theme === 'lightMode') { echo 'lightMode'; };
-            if ($theme === 'dark') { echo ''; };
+            echo $theme;
+            // if ($theme === 'lightMode') { echo 'lightMode'; };
+            // if ($theme === 'dark') { echo ''; };
         ?>"
     >
         <main>
