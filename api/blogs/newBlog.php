@@ -13,7 +13,7 @@
         $form_data = [
             'title' => sanitizeData($_POST['title_input_blog']),
             'description' => sanitizeData($_POST['desc_input_blog']),
-            'content' => sanitizeData($_POST['content_blog']),
+            'content' => $_POST['content_blog'],
         ];
 
         $read_time = workOutReadTime($form_data['content']);
@@ -21,9 +21,9 @@
         $form_data['title'] = $form_data['title'] . " " . "-" . " " . $read_time;
 
         if (insertNewBlog($form_data)) {
-            $res['read_time'] = $read_time;
             $res['status'] = 202;
             $res['msg'] = "Success";
+            $res['read_time'] = $read_time;
         }
     }
 
