@@ -83,4 +83,16 @@
         return  $parts[0] < 1 ? '1 min read' : $parts[0] . 'min read';
     }
 
-?>
+    function deleteBlog($blog_id) 
+    {
+        global $conn;
+
+        $sql = "DELETE FROM blog WHERE blog_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $affected_row = $stmt->execute([
+            ':id' => $blog_id,
+        ]);
+
+        return $affected_row > 0 ? true : false;
+    }
