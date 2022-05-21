@@ -11,10 +11,11 @@ import (
 var(
   title string
   description string
+  sections []string
 )
 
 
-func GetSections() {
+func GetSections() ([] error) {
   db, err := sql.Open("mysql", "root:@/mysite")
   if err != nil {
     panic(err)
@@ -32,14 +33,16 @@ func GetSections() {
 
   defer rows.Close()
 
-  output := make([]string, len(rows))
+// var sections []section
+
   for rows.Next() {
-    err := rows.Scan(&title, &description)
+    var sect sections
+    err := rows.Scan(&sect.title, &sect.description)
     if err != nil {
 		  fmt.Println("broke 2")
     }
-    output.append(output, rows)
     fmt.Println(title, description)
+    sections = append(sections, rows)
   }
 
   err = rows.Err()
@@ -47,5 +50,6 @@ func GetSections() {
 	  fmt.Println("errrrrrr")
   }
 
+  return sections
 
 }

@@ -29,12 +29,12 @@ type section struct {
 // }
 
 func getSections() {
-  db.GetSections
+  db.GetSections()
 }
 
 func main() {
   router := gin.Default()
-  router.GET("/sections", getSections)
+  router.GET("/sections", getSections())
 
   router.Run("localhost:8080")
 }
