@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
-
-	_ "github.com/go-sql-driver/mysql"
-
 	"mysite_server/db"
+
+  "net/http"
+
+  "github.com/gin-gonic/gin"
+
 )
 
 type blog struct {
@@ -23,12 +24,17 @@ type section struct {
     CONTENT string 
 }
 
-func sayHi() {
-  msg := db.Hello("hey")
-  fmt.Println(msg)
+// func getSections(s *gin.Context) {
+// s.IndentedJSON(http.StatusOK, db.GetSections)
+// }
+
+func getSections() {
+  db.GetSections
 }
 
-// routes 
 func main() {
-  sayHi();
+  router := gin.Default()
+  router.GET("/sections", getSections)
+
+  router.Run("localhost:8080")
 }
