@@ -8,21 +8,23 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var(
-  title string
-  description string
-)
+type Sections struct {
+  Section_id int
+  Title string
+  Content string 
+}
 
 
-func GetSections() {
+func GetSections() []Sections {
   db, err := sql.Open("mysql", "root:@/mysite")
   if err != nil {
     panic(err)
   }
+
   fmt.Println("connected")
 
   // test select stmt
-  rows, err := db.Query("select title, description from section")
+  rows, err := db.Query("SELECT section_id, title, description FROM section")
 
   if err != nil {
 	  fmt.Println("broke")
@@ -32,14 +34,22 @@ func GetSections() {
 
   defer rows.Close()
 
-  output := make([]string, len(rows))
+  var data []Sections
+
   for rows.Next() {
-    err := rows.Scan(&title, &description)
+
+    s := new(Sections)
+    
+    err := rows.Scan(&s.Section_id, &s.Title, &s.Content)
+
     if err != nil {
 		  fmt.Println("broke 2")
     }
-    output.append(output, rows)
-    fmt.Println(title, description)
+
+    data = append(data, *s)
+      
+    fmt.Println(s)
+
   }
 
   err = rows.Err()
@@ -47,5 +57,6 @@ func GetSections() {
 	  fmt.Println("errrrrrr")
   }
 
+  return data
 
 }

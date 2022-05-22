@@ -3,9 +3,11 @@ package main
 import (
 	"mysite_server/db"
 
-  "net/http"
+  "fmt"
 
-  "github.com/gin-gonic/gin"
+// "net/http"
+
+// "github.com/gin-gonic/gin"
 
 )
 
@@ -18,23 +20,20 @@ type blog struct {
     TAGS string 
 }
 
-type section struct {
-    ID string 
-    TITLE string 
-    CONTENT string 
-}
 
 // func getSections(s *gin.Context) {
 // s.IndentedJSON(http.StatusOK, db.GetSections)
 // }
 
 func getSections() {
-  db.GetSections
+  x := db.GetSections()
+  fmt.Println(x, "heeeey")
 }
 
 func main() {
-  router := gin.Default()
-  router.GET("/sections", getSections)
+  getSections()
+// router := gin.Default()
+// router.GET("/sections", getSections)
 
-  router.Run("localhost:8080")
+// router.Run("localhost:8080")
 }
