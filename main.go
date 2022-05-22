@@ -1,32 +1,32 @@
 package main
 
 import (
-	db "mysite_server/db/sections"
-
-	"net/http"
+	blogs "mysite_server/controllers/blogs"
+	sections "mysite_server/controllers/sections"
 
 	"github.com/gin-gonic/gin"
+
+	"net/http"
 )
 
-// move this to db/blog when bothered
-type blog struct {
-	ID      string
-	TITLE   string
-	DESC    string
-	TIME    string
-	CONTENT string
-	TAGS    string
+// get sections from db/sections
+func getSections(s *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
+	sects := sections.GetSections()
+	s.IndentedJSON(http.StatusOK, sects) // returns 200 & json of queried data
 }
 
 // get sections from db/sections
-func getSections(s *gin.Context) { // gin context is taken care of by gin engine -> used for handling http Req and Res
-	sects := db.GetSections()
-	s.IndentedJSON(http.StatusOK, sects) // returns 200 & json of queried data
+func getBlogs(b *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
+	bl := blogs.GetBlogs()
+	b.IndentedJSON(http.StatusOK, bl) // returns 200 & json of queried data
 }
 
 func main() {
 	router := gin.Default()
+
 	router.GET("/sections", getSections)
+	router.GET("/blogs", getBlogs)
+
 	router.Run("localhost:8080")
 }
 
@@ -35,5 +35,7 @@ func main() {
 	gin will trust all proxies by default
 
 		can SetTrustedProxies() to specify the correct client - worry about this later
+
+	NEED to learn what proper err handling looks like - change all Println stmts
 
 */
