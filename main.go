@@ -3,12 +3,9 @@ package main
 import (
 	"mysite_server/db"
 
-  "fmt"
-
-// "net/http"
-
-// "github.com/gin-gonic/gin"
-
+	"fmt"
+	// "net/http"
+	// "github.com/gin-gonic/gin"
 )
 
 type blog struct {
