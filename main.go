@@ -6,24 +6,27 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	cors "github.com/rs/cors/wrapper/gin"
+
 	"net/http"
 )
 
 // get sections from db/sections
-func getSections(s *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
+func getSections(context *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
 	sects := sections.GetSections()
-	s.IndentedJSON(http.StatusOK, sects) // returns 200 & json of queried data
+	context.IndentedJSON(http.StatusOK, sects) // returns 200 & json of queried data
 }
 
 // get sections from db/sections
-func getBlogs(b *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
+func getBlogs(context *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
 	bl := blogs.GetBlogs()
-	b.IndentedJSON(http.StatusOK, bl) // returns 200 & json of queried data
+	context.IndentedJSON(http.StatusOK, bl) // returns 200 & json of queried data
 }
 
 func main() {
 	router := gin.Default()
 
+	router.Use(cors.Default())
 	router.GET("/sections", getSections)
 	router.GET("/blogs", getBlogs)
 
