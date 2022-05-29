@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	blogs "mysite_server/controllers/blogs"
-	sections "mysite_server/controllers/sections"
+	a "mysite_server/controllers/auth"
+	b "mysite_server/controllers/blogs"
+	s "mysite_server/controllers/sections"
 
 	"github.com/gin-gonic/gin"
 
@@ -14,14 +15,14 @@ import (
 
 // get sections from db/sections
 func getSections(c *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
-	sects := sections.GetSections()
+	sects := s.GetSections()
 	c.IndentedJSON(http.StatusOK, sects) // returns 200 & json of queried data
 }
 
 // get sections from db/sections
 func getBlogs(c *gin.Context) { // gin context is taken care of by gin engine -> used for handling http req and res
-	bl := blogs.GetBlogs()
-	c.IndentedJSON(http.StatusOK, bl) // returns 200 & json of queried data
+	blogs := b.GetBlogs()
+	c.IndentedJSON(http.StatusOK, blogs) // returns 200 & json of queried data
 }
 
 // wip
@@ -41,7 +42,7 @@ func postBlogs(c *gin.Context) {
 
 	fmt.Println(blog)
 
-	// err := blogs.PostBlogs(blog)
+	// err := b.PostBlogs(blog)
 	// if err != nil {
 	// fmt.Println(err, "insert broken")
 	// exit here also
@@ -50,8 +51,23 @@ func postBlogs(c *gin.Context) {
 	// c.(http.StatusOK)
 }
 
-func checkIfAmdin() {
-	// this needs to be done first - before other cruds - finish newBlog later
+func checkIfAdmin(c *gin.Context) {
+	var pass string
+	var auth int
+
+	// need to swap this to something that works for form data
+	err := c.ShouldBindJSON(&pass)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotAcceptable, gin.H{"msg": "not allowed"})
+		return
+	}
+
+	auth = a.CheckAdmin(pass)
+
+	if auth == 200 {
+		c.IndentedJSON(http.StatusAccepted, gin.H{"msg": "allowed"})
+	}
+	c.IndentedJSON(http.StatusForbidden, gin.H{"msg": "not allowed"})
 }
 
 func main() {
@@ -61,6 +77,7 @@ func main() {
 	router.GET("/sections", getSections)
 	router.GET("/blogs", getBlogs)
 	router.POST("/newBlog", postBlogs)
+	router.POST("/auth", checkIfAdmin)
 
 	router.Run("localhost:8080")
 }
