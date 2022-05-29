@@ -7,4 +7,8 @@
 
 ### Todo
 
--   create links through to actual blog content
+- 
+
+### Roadmap
+
+- Re-write in Golang 
