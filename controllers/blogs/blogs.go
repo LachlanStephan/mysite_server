@@ -6,18 +6,20 @@ import (
 )
 
 type Blog struct {
-	ID      string
+	ID      int
 	Title   string
 	Desc    string
 	Content string
 }
 
-var (
-	sql string
-)
+type NewBlog struct {
+	Title       string
+	Description string
+	Content     string
+}
 
 func GetBlogs() []Blog {
-	sql = "SELECT blog_id, content, title, description FROM blog ORDER BY blog_id DESC"
+	sql := "SELECT blog_id, content, title, description FROM blog ORDER BY blog_id DESC"
 
 	// open db conn
 	db.Connect()
@@ -51,4 +53,9 @@ func GetBlogs() []Blog {
 	}
 
 	return blogData
+}
+
+func PostBlogs(data []NewBlog) {
+	// insert data
+	fmt.Println(data)
 }
