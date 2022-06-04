@@ -12,26 +12,32 @@ import (
 func CheckAdmin(pass string) int {
 	db.Connect()
 
+	fmt.Println("do we reach?", pass)
+
 	passToCheck := []byte(pass)
 
-	// pass from db
 	var p []byte
 
-	sql := "SELECT password FROM user WHERE user_name = Lach"
+	sql := "SELECT password FROM user WHERE user_name = ?"
 
-	rows, err := db.Conn.Query(sql)
+	rows, err := db.Conn.Query(sql, "LachTwo")
 
 	if err != nil {
+		fmt.Println(err)
 		return 403
 	}
 
+	fmt.Println(rows)
+
 	db.Close()
+
+	fmt.Println("do we reach? 2")
 
 	for rows.Next() {
 		err := rows.Scan(&p)
 
 		if err != nil {
-			fmt.Println("oops", err)
+			fmt.Println("scan err", err)
 			return 403
 		}
 	}
@@ -39,8 +45,10 @@ func CheckAdmin(pass string) int {
 	var t = []byte("helloThere")
 	test, err := bcrypt.GenerateFromPassword(t, bcrypt.DefaultCost)
 	if err != nil {
-		fmt.Println(test)
+		fmt.Println("generate err", test)
 	}
+
+	fmt.Println(test)
 
 	// hash the attempt - posted password
 	hash, err := bcrypt.GenerateFromPassword(passToCheck, bcrypt.DefaultCost)
@@ -49,13 +57,17 @@ func CheckAdmin(pass string) int {
 		return 500
 	}
 
+	fmt.Println(hash, p)
+
 	// compare the two
 	err = bcrypt.CompareHashAndPassword(hash, p)
 
 	switch {
 	case err != nil:
+		fmt.Println("compare shitted")
 		return 500
 	default: // if err == nil - passwords matched
+		fmt.Println("worked")
 		return 200
 	}
 }

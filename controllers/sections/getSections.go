@@ -49,7 +49,6 @@ func GetSections() []Section {
 		data = append(data, *s)
 	}
 
-	// not sure here -> maybe some redundant checking?
 	err = rows.Err()
 	if err != nil {
 		fmt.Println("errrrrrr")

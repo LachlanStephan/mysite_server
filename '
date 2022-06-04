@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"encoding/json"
+
 	a "mysite_server/controllers/auth"
 	b "mysite_server/controllers/blogs"
 	s "mysite_server/controllers/sections"
@@ -62,19 +64,30 @@ func checkIfAdmin(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{"msg": "bind fail"})
-		return
 	}
 
-	auth = a.CheckAdmin(p.Pass)
-
-	if auth == 400 || auth == 500 {
-		c.IndentedJSON(http.StatusForbidden, gin.H{"msg": "not allowed"})
+	if err == nil {
+		c.JSON(202, p.Pass)
 	}
+
+	err = json.Unmarshal([]byte, p.Pass))
+
+	if err != nil {
+		fmt.Println("oops")
+	}
+
+	var x string
+
+	if err == nil {
+		x = p.Pass
+	}
+
+	auth = a.CheckAdmin(x)
 
 	if auth == 200 {
-		c.IndentedJSON(http.StatusAccepted, gin.H{"msg": "allowed", "status": "202"})
+		c.IndentedJSON(http.StatusAccepted, gin.H{"msg": "allowed"})
 	}
-
+	c.IndentedJSON(http.StatusForbidden, gin.H{"msg": "not allowed"})
 }
 
 func main() {
