@@ -13,7 +13,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newTemplateData(r)
+	data := app.newFileData(r)
 
 	app.render(w, http.StatusOK, homeTemplate, data)
 }
@@ -24,7 +24,7 @@ func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newTemplateData(r)
+	data := app.newFileData(r)
 
 	app.render(w, http.StatusOK, blogsTemplate, data)
 }

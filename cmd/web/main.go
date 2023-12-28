@@ -7,9 +7,9 @@ import (
 )
 
 type application struct {
-	errorLog      *log.Logger
-	infoLog       *log.Logger
-	templateCache map[string]*template.Template
+	errorLog  *log.Logger
+	infoLog   *log.Logger
+	fileCache map[string]*template.Template
 }
 
 var (
@@ -19,15 +19,15 @@ var (
 )
 
 func main() {
-	templateCache, err := newTemplateCache()
+	fileCache, err := newFileCache()
 	if err != nil {
 		errorLog.Fatal(err)
 	}
 
 	app := &application{
-		errorLog:      errorLog,
-		infoLog:       infoLog,
-		templateCache: templateCache,
+		errorLog:  errorLog,
+		infoLog:   infoLog,
+		fileCache: fileCache,
 	}
 
 	err = runServer(port, app)

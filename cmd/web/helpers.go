@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"runtime/debug"
 	"strings"
-	"time"
 )
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
@@ -17,7 +16,7 @@ func (app *application) serverError(w http.ResponseWriter, err error) {
 }
 
 func (app *application) render(w http.ResponseWriter, status int, page string, data *Files) {
-	ts, ok := app.templateCache[page]
+	ts, ok := app.fileCache[page]
 	if !ok {
 		err := fmt.Errorf("looks like this template does not exist - %s", page)
 		app.serverError(w, err)
@@ -37,18 +36,12 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	buf.WriteTo(w)
 }
 
-func (app *application) newTemplateData(r *http.Request) *Files {
-	return &Files{
-		CurrentYear: time.Now().Year(),
-	}
-}
-
 func (app *application) clientError(w http.ResponseWriter, status int) {
 	http.Error(w, http.StatusText(status), status)
 }
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
-	data := app.newTemplateData(r)
+	data := app.newFileData(r)
 	app.render(w, http.StatusNotFound, notFoundTemplate, data)
 }
 

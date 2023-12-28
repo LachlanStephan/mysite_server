@@ -2,7 +2,9 @@ package main
 
 import (
 	"html/template"
+	"net/http"
 	"path/filepath"
+	"time"
 )
 
 type Files struct {
@@ -14,7 +16,7 @@ type Files struct {
 var functions = template.FuncMap{}
 
 // create in memory cache to store templates and prevent repeating ourselves in the handler funcs
-func newTemplateCache() (map[string]*template.Template, error) {
+func newFileCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
@@ -44,4 +46,10 @@ func newTemplateCache() (map[string]*template.Template, error) {
 	}
 
 	return cache, nil
+}
+
+func (app *application) newFileData(r *http.Request) *Files {
+	return &Files{
+		CurrentYear: time.Now().Year(),
+	}
 }
