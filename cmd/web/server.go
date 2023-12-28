@@ -12,11 +12,13 @@ func runServer(port string, app *application) error {
 		mux.HandleFunc(k, v)
 	}
 
+	app.infoLog.Printf("Starting on port %s", port)
 	err := http.ListenAndServe(port, mux)
+
 	if err != nil {
-		app.errorLog.Fatal(err)
 		return err
 	}
+
 	return nil
 }
 

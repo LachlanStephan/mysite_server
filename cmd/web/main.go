@@ -1,16 +1,15 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"os"
-
-	"github.com/LachlanStephan/mysite_server/cmd/files"
 )
 
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
-	files    *files.Files
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	templateCache map[string]*template.Template
 }
 
 var (
@@ -20,14 +19,17 @@ var (
 )
 
 func main() {
-	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
-		files:    &files.Files{},
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		errorLog.Fatal(err)
 	}
 
-	err := runServer(port, app)
-	if err != nil {
-		log.Fatal(err)
+	app := &application{
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		templateCache: templateCache,
 	}
+
+	err = runServer(port, app)
+	log.Fatal(err)
 }
