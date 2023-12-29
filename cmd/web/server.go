@@ -14,7 +14,6 @@ func runServer(port string, app *application) error {
 
 	app.infoLog.Printf("Starting on port %s", port)
 	err := http.ListenAndServe(port, mux)
-
 	if err != nil {
 		return err
 	}
