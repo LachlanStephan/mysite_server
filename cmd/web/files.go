@@ -24,6 +24,13 @@ func newFileCache() (map[string]*template.Template, error) {
 		return nil, err
 	}
 
+	blogs, err := filepath.Glob("./ui/html/pages/blogs/*.tmpl.html")
+	if err != nil {
+		return nil, err
+	}
+
+	pages = append(pages, blogs...)
+
 	for _, page := range pages {
 		name := filepath.Base(page)
 

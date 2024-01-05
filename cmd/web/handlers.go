@@ -3,8 +3,6 @@ package main
 import (
 	"net/http"
 	"strings"
-
-	"github.com/LachlanStephan/mysite_server/internal/validator"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -13,9 +11,15 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	f, err := app.getFile(homeTemplate)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	data := app.newFileData(r)
 
-	app.render(w, http.StatusOK, homeTemplate, data)
+	app.render(w, http.StatusOK, f, data)
 }
 
 func (app *application) blog(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +30,13 @@ func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 
 	data := app.newFileData(r)
 
-	app.render(w, http.StatusOK, blogsTemplate, data)
+	f, err := app.getFile(blogsTemplate)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, http.StatusOK, f, data)
 }
 
 func (app *application) viewBlog(w http.ResponseWriter, r *http.Request) {
@@ -38,12 +48,15 @@ func (app *application) viewBlog(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 	length := len(parts) - 1
 	id := parts[length]
+	id = id + ".tmpl.html"
 
-	err := validator.InvalidId(id)
+	f, err := app.getFile(id)
 	if err != nil {
-		app.serverError(w, err)
+		app.notFound(w, r)
 		return
 	}
 
-	app.infoLog.Output(0, id)
+	data := app.newFileData(r)
+
+	app.render(w, http.StatusOK, f, data)
 }
