@@ -1,4 +1,9 @@
 {{define "title"}}Blogs {{end}} {{define "main"}}
 <h1>Blogs...</h1>
 
+<ul class="blogLinks">
+	{{range .BlogLinks}}
+	<a href="/{{.Href}}">{{.BlogName}}</a>
+	{{end}}
+</ul>
 {{end}}

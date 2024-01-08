@@ -1,14 +1,17 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"path/filepath"
 	"time"
 )
 
-type Files struct {
+type FileData struct {
 	CurrentYear int
+	BlogLinks   []*BlogLinks
 }
 
 // creating an object to store helper functions that the templates may use
@@ -19,12 +22,12 @@ var functions = template.FuncMap{}
 func newFileCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./ui/html/pages/*.tmpl.html")
+	blogs, err := getFilesFromPath(blogsPath)
 	if err != nil {
 		return nil, err
 	}
 
-	blogs, err := filepath.Glob("./ui/html/pages/blogs/*.tmpl.html")
+	pages, err := getFilesFromPath(pagesPath)
 	if err != nil {
 		return nil, err
 	}
@@ -55,8 +58,41 @@ func newFileCache() (map[string]*template.Template, error) {
 	return cache, nil
 }
 
-func (app *application) newFileData(r *http.Request) *Files {
-	return &Files{
+func getFilesFromPath(path string) ([]string, error) {
+	blogs, err := filepath.Glob(path)
+	if err != nil {
+		return nil, err
+	}
+
+	return blogs, nil
+}
+
+func (app *application) newFileData(r *http.Request) *FileData {
+	return &FileData{
 		CurrentYear: time.Now().Year(),
 	}
+}
+
+func (app *application) render(w http.ResponseWriter, status int, t *template.Template, data *FileData) {
+	// we are going to check if the template is correct and safe to build
+	buf := new(bytes.Buffer)
+
+	err := t.ExecuteTemplate(buf, "base", data)
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	w.WriteHeader(status)
+
+	buf.WriteTo(w)
+}
+
+func (app *application) getFile(file string) (*template.Template, error) {
+	ts, ok := app.fileCache[file]
+	if !ok {
+		err := fmt.Errorf("looks like this file does not exist - %s", file)
+		return nil, err
+	}
+
+	return ts, nil
 }

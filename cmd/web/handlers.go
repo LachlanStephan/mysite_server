@@ -28,13 +28,20 @@ func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newFileData(r)
-
 	f, err := app.getFile(blogsTemplate)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
+
+	blogLinks, err := getBlogLinks()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	data := app.newFileData(r)
+	data.BlogLinks = blogLinks
 
 	app.render(w, http.StatusOK, f, data)
 }
