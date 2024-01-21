@@ -18,8 +18,9 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 	http.Error(w, http.StatusText(status), status)
 }
 
-func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
+func (app *application) notFound(w http.ResponseWriter, r *http.Request, customError error) {
 	data := app.newFileData(r)
+	data.CustomError = customError
 	template, err := app.getFile(notFoundTemplate)
 	if err != nil {
 		app.serverError(w, err)

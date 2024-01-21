@@ -12,6 +12,7 @@ import (
 type FileData struct {
 	CurrentYear int
 	BlogLinks   []*BlogLinks
+	CustomError error
 }
 
 // creating an object to store helper functions that the templates may use
@@ -70,6 +71,7 @@ func getFilesFromPath(path string) ([]string, error) {
 func (app *application) newFileData(r *http.Request) *FileData {
 	return &FileData{
 		CurrentYear: time.Now().Year(),
+		CustomError: nil,
 	}
 }
 
@@ -90,7 +92,7 @@ func (app *application) render(w http.ResponseWriter, status int, t *template.Te
 func (app *application) getFile(file string) (*template.Template, error) {
 	ts, ok := app.fileCache[file]
 	if !ok {
-		err := fmt.Errorf("looks like this file does not exist - %s", file)
+		err := fmt.Errorf("looks like %s does not exist", file)
 		return nil, err
 	}
 

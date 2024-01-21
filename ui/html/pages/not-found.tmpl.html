@@ -1,3 +1,5 @@
 {{define "title"}}Not found {{end}} {{define "main"}}
 <h1>Page not found...</h1>
-{{end}}
+{{if .CustomError}}
+<p>{{.CustomError}}</p>
+{{end}} {{end}}

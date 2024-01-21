@@ -7,4 +7,5 @@ const (
 	notFoundTemplate = "not-found.tmpl.html"
 	blogsPath        = "./ui/html/pages/blogs/*.tmpl.html"
 	pagesPath        = "./ui/html/pages/*.tmpl.html"
+	htmlSuffix       = ".tmpl.html"
 )

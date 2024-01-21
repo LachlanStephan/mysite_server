@@ -7,7 +7,7 @@ import (
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if !app.pathExists("/", r) {
-		app.notFound(w, r)
+		app.notFound(w, r, nil)
 		return
 	}
 
@@ -24,7 +24,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 	if !app.pathExists("/blog", r) {
-		app.notFound(w, r)
+		app.notFound(w, r, nil)
 		return
 	}
 
@@ -48,18 +48,18 @@ func (app *application) blog(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) viewBlog(w http.ResponseWriter, r *http.Request) {
 	if !app.pathContains("/blog/view/", r) {
-		app.notFound(w, r)
+		app.notFound(w, r, nil)
 		return
 	}
 
 	parts := strings.Split(r.URL.Path, "/")
 	length := len(parts) - 1
 	id := parts[length]
-	id = id + ".tmpl.html"
+	id = id + htmlSuffix
 
 	f, err := app.getFile(id)
 	if err != nil {
-		app.notFound(w, r)
+		app.notFound(w, r, err)
 		return
 	}
 
