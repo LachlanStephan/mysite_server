@@ -1,0 +1,45 @@
+* {
+	font-family: "Fira Code", monospace;
+}
+
+body {
+	padding: 1rem;
+	margin: 0 auto;
+	width: 60%;
+}
+
+ul {
+	padding: 0;
+}
+
+.blogLinks {
+	display: flex;
+	flex-direction: column;
+	justify-content: left;
+	gap: 1rem;
+}
+
+.about-section {
+	display: flex;
+	gap: 2rem;
+}
+
+.about-section > img {
+	height: 20rem;
+	width: 10rem;
+	border-radius: 2px;
+}
+
+.about-text {
+	display: flex;
+	flex-direction: column;
+}
+
+@media (width <= 699px) {
+	body {
+		width: 95%;
+	}
+	.about-section {
+		flex-direction: column;
+	}
+}

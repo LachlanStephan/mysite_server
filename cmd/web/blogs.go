@@ -2,7 +2,6 @@ package main
 
 import (
 	"path/filepath"
-	"strings"
 )
 
 type BlogLinks struct {
@@ -27,14 +26,4 @@ func getBlogLinks() ([]*BlogLinks, error) {
 		bl = append(bl, data)
 	}
 	return bl, nil
-}
-
-// can be more than one file ext eg. ".tmpl.html"
-func stripFileExt(name string) string {
-	r := name
-	extCount := strings.Count(name, ".")
-	for i := 0; i < extCount; i++ {
-		r = strings.TrimSuffix(r, filepath.Ext(r))
-	}
-	return r
 }

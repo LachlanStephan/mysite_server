@@ -12,6 +12,9 @@ func runServer(port string, app *application) error {
 		mux.HandleFunc(k, v)
 	}
 
+	fileServer := http.FileServer(http.Dir("./ui/static"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	app.infoLog.Printf("Starting on port %s", port)
 	err := http.ListenAndServe(port, mux)
 	if err != nil {
