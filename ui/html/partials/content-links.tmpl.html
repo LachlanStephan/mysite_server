@@ -1,0 +1,7 @@
+{{define "content-links"}}
+<ul class="contentLinks">
+	{{range .ContentLinks}}
+	<a href="/{{.Href}}">{{.Name}}</a>
+	{{end}}
+</ul>
+{{end}}

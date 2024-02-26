@@ -26,9 +26,11 @@ func runServer(port string, app *application) error {
 
 func (app *application) getRoutes() map[string]func(http.ResponseWriter, *http.Request) {
 	list := map[string]func(http.ResponseWriter, *http.Request){
-		"/":           app.home,
-		"/blog":       app.blog,
-		"/blog/view/": app.viewBlog,
+		"/":            app.home,
+		"/blogs":       app.blogs,
+		"/books":       app.books,
+		"/blogs/view/": app.viewContent,
+		"/books/view/": app.viewContent,
 	}
 
 	return list

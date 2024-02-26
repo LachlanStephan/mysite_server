@@ -11,9 +11,9 @@ import (
 )
 
 type FileData struct {
-	CurrentYear int
-	BlogLinks   []*BlogLinks
-	CustomError error
+	CurrentYear  int
+	ContentLinks []*ContentLinks
+	CustomError  error
 }
 
 // creating an object to store helper functions that the templates may use
@@ -34,7 +34,13 @@ func newFileCache() (map[string]*template.Template, error) {
 		return nil, err
 	}
 
+	books, err := getFilesFromPath(booksPath)
+	if err != nil {
+		return nil, err
+	}
+
 	pages = append(pages, blogs...)
+	pages = append(pages, books...)
 
 	for _, page := range pages {
 		name := filepath.Base(page)
