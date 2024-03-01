@@ -12,6 +12,14 @@ ul {
 	padding: 0;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	border-bottom: solid pink;
+}
+
 .contentLinks {
 	display: flex;
 	flex-direction: column;

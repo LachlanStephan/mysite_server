@@ -36,3 +36,10 @@ func (app *application) pathExists(path string, r *http.Request) bool {
 func (app *application) pathContains(path string, r *http.Request) bool {
 	return strings.Contains(r.URL.Path, path)
 }
+
+func getFileNameFromPath(path string) string {
+	parts := strings.Split(path, "/")
+	index := len(parts) - 1
+	fileName := parts[index] + htmlSuffix
+	return fileName
+}

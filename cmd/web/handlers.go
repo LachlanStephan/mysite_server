@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"strings"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -75,12 +74,9 @@ func (app *application) viewContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parts := strings.Split(r.URL.Path, "/")
-	length := len(parts) - 1
-	id := parts[length]
-	id = id + htmlSuffix
+	fileName := getFileNameFromPath(r.URL.Path)
 
-	f, err := app.getFile(id)
+	f, err := app.getFile(fileName)
 	if err != nil {
 		app.notFound(w, r, err)
 		return
