@@ -14,10 +14,11 @@ ul {
 
 a {
 	text-decoration: none;
+	display: inline;
 }
 
 a:hover {
-	border-bottom: solid pink;
+	text-decoration: underline pink 0.3rem;
 }
 
 .contentLinks {

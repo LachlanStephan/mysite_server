@@ -19,11 +19,11 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 }
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request, customError error) {
-	data := app.newFileData(r)
+	data := app.newFileData()
 	data.CustomError = customError
 	template, err := app.getFile(notFoundTemplate)
 	if err != nil {
-		app.serverError(w, err)
+		return
 	}
 
 	app.render(w, http.StatusNotFound, template, data)

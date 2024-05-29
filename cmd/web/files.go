@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -22,6 +23,11 @@ var functions = template.FuncMap{}
 
 // create in memory cache to store templates and prevent repeating ourselves in the handler funcs
 func newFileCache() (map[string]*template.Template, error) {
+	p, err := getPathPrefix()
+	if err != nil {
+		return nil, err
+	}
+
 	cache := map[string]*template.Template{}
 
 	blogs, err := getFilesFromPath(blogsPath)
@@ -45,12 +51,12 @@ func newFileCache() (map[string]*template.Template, error) {
 	for _, page := range pages {
 		name := filepath.Base(page)
 
-		ts, err := template.New(name).Funcs(functions).ParseFiles("./ui/html/base.tmpl.html")
+		ts, err := template.New(name).Funcs(functions).ParseFiles(p + "/ui/html/base.tmpl.html")
 		if err != nil {
 			return nil, err
 		}
 
-		ts, err = ts.ParseGlob("./ui/html/partials/*.tmpl.html")
+		ts, err = ts.ParseGlob(p + "/ui/html/partials/*.tmpl.html")
 		if err != nil {
 			return nil, err
 		}
@@ -67,7 +73,11 @@ func newFileCache() (map[string]*template.Template, error) {
 }
 
 func getFilesFromPath(path string) ([]string, error) {
-	blogs, err := filepath.Glob(path)
+	p, err := getPathPrefix()
+	if err != nil {
+		return nil, err
+	}
+	blogs, err := filepath.Glob(p + path)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +85,7 @@ func getFilesFromPath(path string) ([]string, error) {
 	return blogs, nil
 }
 
-func (app *application) newFileData(r *http.Request) *FileData {
+func (app *application) newFileData() *FileData {
 	return &FileData{
 		CurrentYear: time.Now().Year(),
 		CustomError: nil,
@@ -114,4 +124,17 @@ func stripFileExt(name string) string {
 		r = strings.TrimSuffix(r, filepath.Ext(r))
 	}
 	return r
+}
+
+func replaceDashWithColon(name string) string {
+	return strings.Replace(name, "-", ": ", 1)
+}
+
+func getPathPrefix() (string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	return wd, nil
 }

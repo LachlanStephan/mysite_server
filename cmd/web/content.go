@@ -15,13 +15,14 @@ func getContentLinks(contentParentPath, hrefPrefix string) ([]*ContentLinks, err
 
 	cl := []*ContentLinks{}
 
-	for _, page := range content {
-		name := stripFileExt(filepath.Base(page))
+	for i := len(content) - 1; i >= 0; i-- {
+		name := stripFileExt(filepath.Base(content[i]))
 		data := &ContentLinks{
 			Href: hrefPrefix + name,
-			Name: name,
+			Name: replaceDashWithColon(name),
 		}
 		cl = append(cl, data)
 	}
+
 	return cl, nil
 }

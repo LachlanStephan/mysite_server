@@ -16,7 +16,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newFileData(r)
+	data := app.newFileData()
 
 	app.render(w, http.StatusOK, f, data)
 }
@@ -38,7 +38,7 @@ func (app *application) books(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 	}
 
-	data := app.newFileData(r)
+	data := app.newFileData()
 	data.ContentLinks = bookLinks
 
 	app.render(w, http.StatusOK, f, data)
@@ -62,7 +62,7 @@ func (app *application) blogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newFileData(r)
+	data := app.newFileData()
 	data.ContentLinks = blogLinks
 
 	app.render(w, http.StatusOK, f, data)
@@ -82,7 +82,11 @@ func (app *application) viewContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newFileData(r)
+	data := app.newFileData()
 
 	app.render(w, http.StatusOK, f, data)
+}
+
+func (app *application) favicon(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "/static/img/cartoon-me.ico")
 }

@@ -15,7 +15,6 @@ type application struct {
 var (
 	infoLog  = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Llongfile)
-	port     = ":8080"
 )
 
 func main() {
@@ -30,6 +29,14 @@ func main() {
 		fileCache: fileCache,
 	}
 
-	err = runServer(port, app)
-	log.Fatal(err)
+	runServer(getPort(), app)
+}
+
+func getPort() string {
+	p := os.Getenv(port)
+	if p == "" {
+		return portDefault
+	}
+
+	return p
 }
