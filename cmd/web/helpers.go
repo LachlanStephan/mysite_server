@@ -20,7 +20,12 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request, customError error) {
 	data := app.newFileData()
-	data.CustomError = customError
+	data.CustomError = fmt.Errorf(
+		"unable to find url %s with error %s",
+		r.URL.Path,
+		customError,
+	)
+
 	template, err := app.getFile(notFoundTemplate)
 	if err != nil {
 		return

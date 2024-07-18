@@ -30,23 +30,10 @@ func newFileCache() (map[string]*template.Template, error) {
 
 	cache := map[string]*template.Template{}
 
-	blogs, err := getFilesFromPath(blogsPath)
+	pages, err := getAllPages()
 	if err != nil {
 		return nil, err
 	}
-
-	pages, err := getFilesFromPath(pagesPath)
-	if err != nil {
-		return nil, err
-	}
-
-	books, err := getFilesFromPath(booksPath)
-	if err != nil {
-		return nil, err
-	}
-
-	pages = append(pages, blogs...)
-	pages = append(pages, books...)
 
 	for _, page := range pages {
 		name := filepath.Base(page)
@@ -70,6 +57,22 @@ func newFileCache() (map[string]*template.Template, error) {
 	}
 
 	return cache, nil
+}
+
+func getAllPages() ([]string, error) {
+	paths := []string{blogsPath, pagesPath, booksPath}
+	pages := []string{}
+
+	for _, v := range paths {
+		content, err := getFilesFromPath(v)
+		if err != nil {
+			return nil, err
+		}
+
+		pages = append(pages, content...)
+	}
+
+	return pages, nil
 }
 
 func getFilesFromPath(path string) ([]string, error) {
