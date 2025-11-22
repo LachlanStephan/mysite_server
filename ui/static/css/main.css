@@ -1,54 +1,46 @@
 * {
 	font-family: "Fira Code", monospace;
+	background-color: white;
+	color: black;
+	/* @media (prefers-color-scheme: dark) { */
+	background-color: #d3d3d3;
+	color: black;
+	/* } */
+}
+
+html {
+	display: flex;
+	justify-content: center;
 }
 
 body {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: baseline;
+	gap: 3rem;
+	height: 100vh;
+}
+
+main {
+	width: 80%;
+}
+
+.nav {
+	display: flex;
+	flex-direction: column;
+	border-color: black;
+	border-width: 1px 1px 1px 2px;
+	border-radius: 1%;
 	padding: 1rem;
-	margin: 0 auto;
-	width: 60%;
-}
-
-ul {
-	padding: 0;
-}
-
-a {
-	text-decoration: none;
-	display: inline;
-}
-
-a:hover {
-	text-decoration: underline pink 0.3rem;
-}
-
-.contentLinks {
-	display: flex;
-	flex-direction: column;
-	justify-content: left;
 	gap: 1rem;
+	width: 20%;
+	height: 90%;
+	overflow-y: auto;
 }
 
-.about-section {
-	display: flex;
-	gap: 2rem;
-}
-
-.about-section > img {
-	height: 20rem;
-	width: 10rem;
-	border-radius: 3px;
-}
-
-.about-text {
-	display: flex;
-	flex-direction: column;
-}
-
-@media (width <= 699px) {
+@media (width >= 850px) {
 	body {
-		width: 95%;
-	}
-	.about-section {
-		flex-direction: column;
+		width: 70%;
 	}
 }

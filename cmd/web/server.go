@@ -28,10 +28,7 @@ func runServer(port string, app *application) {
 func (app *application) getRoutes() map[string]func(http.ResponseWriter, *http.Request) {
 	list := map[string]func(http.ResponseWriter, *http.Request){
 		"/":            app.home,
-		"/blogs":       app.blogs,
-		"/books":       app.books,
 		"/blogs/view/": app.viewContent,
-		"/books/view/": app.viewContent,
 		"/favicon.ico": app.favicon,
 	}
 

@@ -5,7 +5,7 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	if !app.pathExists("/", r) {
+	if !app.isCorrectPath("/", r) {
 		app.notFound(w, r, nil)
 		return
 	}
@@ -16,60 +16,20 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newFileData()
-
-	app.render(w, http.StatusOK, f, data)
-}
-
-func (app *application) books(w http.ResponseWriter, r *http.Request) {
-	if !app.pathExists("/books", r) {
-		app.notFound(w, r, nil)
-		return
-	}
-
-	f, err := app.getFile(booksTemplate)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	bookLinks, err := getContentLinks(booksPath, booksHrefPrefix)
-	if err != nil {
-		app.serverError(w, err)
-	}
-
-	data := app.newFileData()
-	data.ContentLinks = bookLinks
-
-	app.render(w, http.StatusOK, f, data)
-}
-
-func (app *application) blogs(w http.ResponseWriter, r *http.Request) {
-	if !app.pathExists("/blogs", r) {
-		app.notFound(w, r, nil)
-		return
-	}
-
-	f, err := app.getFile(blogsTemplate)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	blogLinks, err := getContentLinks(blogsPath, blogHrefPrefix)
+	links, err := getContentLinks(blogsPath, blogHrefPrefix, true)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	data := app.newFileData()
-	data.ContentLinks = blogLinks
+	data.ContentLinks = links
 
 	app.render(w, http.StatusOK, f, data)
 }
 
 func (app *application) viewContent(w http.ResponseWriter, r *http.Request) {
-	if !app.pathContains("/blogs/view/", r) && !app.pathContains("books/view/", r) {
+	if !app.pathContains("/view/", r) {
 		app.notFound(w, r, nil)
 		return
 	}
@@ -82,7 +42,14 @@ func (app *application) viewContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	links, err := getContentLinks(blogsPath, blogHrefPrefix, false)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	data := app.newFileData()
+	data.ContentLinks = links
 
 	app.render(w, http.StatusOK, f, data)
 }

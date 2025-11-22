@@ -60,7 +60,7 @@ func newFileCache() (map[string]*template.Template, error) {
 }
 
 func getAllPages() ([]string, error) {
-	paths := []string{blogsPath, pagesPath, booksPath}
+	paths := []string{blogsPath, pagesPath}
 	pages := []string{}
 
 	for _, v := range paths {
@@ -127,10 +127,6 @@ func stripFileExt(name string) string {
 		r = strings.TrimSuffix(r, filepath.Ext(r))
 	}
 	return r
-}
-
-func replaceDashWithColon(name string) string {
-	return strings.Replace(name, "-", ": ", 1)
 }
 
 func getPathPrefix() (string, error) {

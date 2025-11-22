@@ -1,9 +1,7 @@
 {{define "nav"}}
-<nav>
-	<ul>
-		<a href="/">Home</a>
-		<a href="/blogs">Blogs</a>
-		<a href="/books">Books</a>
-	</ul>
-</nav>
+<ul class="nav">
+	{{range .ContentLinks}}
+	<a href="/{{.Href}}">{{.Name}}</a>
+	{{end}}
+</ul>
 {{end}}

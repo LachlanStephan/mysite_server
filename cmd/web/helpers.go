@@ -20,11 +20,20 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 
 func (app *application) notFound(w http.ResponseWriter, r *http.Request, customError error) {
 	data := app.newFileData()
-	data.CustomError = fmt.Errorf(
-		"unable to find url %s with error %s",
-		r.URL.Path,
-		customError,
-	)
+	path := r.URL.Path
+
+	if customError != nil {
+		data.CustomError = fmt.Errorf(
+			"unable to find url %s with error %s",
+			path,
+			customError,
+		)
+	} else {
+		data.CustomError = fmt.Errorf(
+			"unable to find url %s",
+			path,
+		)
+	}
 
 	template, err := app.getFile(notFoundTemplate)
 	if err != nil {
@@ -34,12 +43,16 @@ func (app *application) notFound(w http.ResponseWriter, r *http.Request, customE
 	app.render(w, http.StatusNotFound, template, data)
 }
 
-func (app *application) pathExists(path string, r *http.Request) bool {
+func (app *application) isCorrectPath(path string, r *http.Request) bool {
 	return r.URL.Path == path
 }
 
 func (app *application) pathContains(path string, r *http.Request) bool {
 	return strings.Contains(r.URL.Path, path)
+}
+
+func stringReplace(s, old, new string, limit int) string {
+	return strings.Replace(s, old, new, limit)
 }
 
 func getFileNameFromPath(path string) string {
