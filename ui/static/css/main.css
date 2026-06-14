@@ -1,29 +1,31 @@
+/**
+ * Mobile first
+*/
+
 * {
 	font-family: "Fira Code", monospace;
 	background-color: white;
 	color: black;
-	/* @media (prefers-color-scheme: dark) { */
-	background-color: #d3d3d3;
-	color: black;
-	/* } */
-}
-
-html {
-	display: flex;
-	justify-content: center;
+	@media (prefers-color-scheme: dark) {
+		background-color: black;
+		color: white;
+	}
 }
 
 body {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: baseline;
 	gap: 3rem;
 	height: 100vh;
+	width: 90vw;
+	display: flex;
+	align-items: flex-start;
 }
 
-main {
+.main {
 	width: 80%;
+}
+
+.hidden {
+	display: none;
 }
 
 .nav {
@@ -32,14 +34,19 @@ main {
 	border-color: black;
 	border-width: 1px 1px 1px 2px;
 	border-radius: 1%;
-	padding: 1rem;
 	gap: 1rem;
-	width: 20%;
-	height: 90%;
 	overflow-y: auto;
+	height: 100%;
+	width: 10%;
+	padding: 1rem;
 }
 
-@media (width >= 850px) {
+#navToggle {
+	display: flex;
+	padding: 2rem;
+}
+
+@media (width >= 900px) {
 	body {
 		width: 70%;
 	}

@@ -20,6 +20,7 @@ func getContentLinks(contentParentPath, hrefPrefix string, isHomePage bool) ([]*
 		cl = append(cl, getHomeLink())
 	}
 
+	// reverse order for newest fist
 	for i := len(content) - 1; i >= 0; i-- {
 		name := stripFileExt(filepath.Base(content[i]))
 		data := &ContentLinks{
@@ -35,7 +36,7 @@ func getContentLinks(contentParentPath, hrefPrefix string, isHomePage bool) ([]*
 func getHomeLink() *ContentLinks {
 	link := ContentLinks{
 		Href: "",
-		Name: "<--",
+		Name: "Home",
 	}
 
 	return &link

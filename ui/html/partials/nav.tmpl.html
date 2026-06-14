@@ -1,5 +1,6 @@
 {{define "nav"}}
-<ul class="nav">
+<span id="navToggle" onclick="toggleNav()">X</span>
+<ul id="nav" class="hidden">
 	{{range .ContentLinks}}
 	<a href="/{{.Href}}">{{.Name}}</a>
 	{{end}}
