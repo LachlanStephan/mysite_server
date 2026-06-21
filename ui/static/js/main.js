@@ -1,17 +1,22 @@
 function toggleNav() {
 	const nav = getElement("nav");
 	const main = getElement("main");
-	if (!nav || !main) {
+	const toggle = getElement("navToggle");
+	if (!nav || !main || !toggle) {
 		return;
 	}
 
 	
 	if (nav.className === "hidden") {
+		// show nav
 		nav.className = "nav";
 		main.className = "hidden";
+		toggle.innerHTML = "-";
 	} else {
+		// hide nav
 		nav.className = "hidden";
 		main.className = "main";
+		toggle.innerHTML = "X";
 	}
 }
 

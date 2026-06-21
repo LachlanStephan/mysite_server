@@ -2,11 +2,24 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
+type Route struct {
+	httpMethod string
+	path       string
+	handler    func(http.ResponseWriter, *http.Request)
+}
+
 func runServer(port string, app *application) {
-	mux := http.NewServeMux()
+	router := httprouter.New()
 	routes := app.getRoutes()
+
+	for i := 0; i < len(routes); i++ {
+		route := routes[i]
+		router.HandlerFunc(route.httpMethod, route.path, route.handler)
+	}
 
 	p, err := getPathPrefix()
 	if err != nil {
@@ -14,23 +27,31 @@ func runServer(port string, app *application) {
 	}
 
 	fileServer := http.FileServer(http.Dir(p + "/ui/static"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
-	for k, v := range routes {
-		mux.HandleFunc(k, v)
-	}
+	router.Handler(http.MethodGet, "/static/", http.StripPrefix("/static", fileServer))
 
 	app.infoLog.Printf("Starting on port %s", port)
-	err = http.ListenAndServe(":"+port, mux)
+	err = http.ListenAndServe(":"+port, app.rateLimit(router))
 	app.errorLog.Fatal(err)
 }
 
-func (app *application) getRoutes() map[string]func(http.ResponseWriter, *http.Request) {
-	list := map[string]func(http.ResponseWriter, *http.Request){
-		"/":            app.home,
-		"/blogs/view/": app.viewContent,
-		"/favicon.ico": app.favicon,
+func (app *application) getRoutes() []Route {
+	routes := []Route{
+		Route{
+			httpMethod: http.MethodGet,
+			path:       "/",
+			handler:    app.home,
+		},
+		Route{
+			httpMethod: http.MethodGet,
+			path:       "/blogs/view/:id",
+			handler:    app.viewContent,
+		},
+		Route{
+			httpMethod: http.MethodGet,
+			path:       "/favicon.ico",
+			handler:    app.favicon,
+		},
 	}
 
-	return list
+	return routes
 }

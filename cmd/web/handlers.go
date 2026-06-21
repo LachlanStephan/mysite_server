@@ -2,14 +2,11 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	if !app.isCorrectPath("/", r) {
-		app.notFound(w, r, nil)
-		return
-	}
-
 	f, err := app.getFile(homeTemplate)
 	if err != nil {
 		app.serverError(w, err)
@@ -29,12 +26,8 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) viewContent(w http.ResponseWriter, r *http.Request) {
-	if !app.pathContains("/view/", r) {
-		app.notFound(w, r, nil)
-		return
-	}
-
-	fileName := getFileNameFromPath(r.URL.Path)
+	params := httprouter.ParamsFromContext(r.Context())
+	fileName := params.ByName("id") + htmlSuffix
 
 	f, err := app.getFile(fileName)
 	if err != nil {

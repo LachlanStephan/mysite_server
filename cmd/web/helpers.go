@@ -18,13 +18,18 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 	http.Error(w, http.StatusText(status), status)
 }
 
+func (app *application) rateLimitExceeded(w http.ResponseWriter, r *http.Request) {
+	msg := "rate limit exceeded"
+	http.Error(w, msg, http.StatusTooManyRequests)
+}
+
 func (app *application) notFound(w http.ResponseWriter, r *http.Request, customError error) {
 	data := app.newFileData()
 	path := r.URL.Path
 
 	if customError != nil {
 		data.CustomError = fmt.Errorf(
-			"unable to find url %s with error %s",
+			"unable to find url %s - ERROR: [%s]",
 			path,
 			customError,
 		)
@@ -53,11 +58,4 @@ func (app *application) pathContains(path string, r *http.Request) bool {
 
 func stringReplace(s, old, new string, limit int) string {
 	return strings.Replace(s, old, new, limit)
-}
-
-func getFileNameFromPath(path string) string {
-	parts := strings.Split(path, "/")
-	index := len(parts) - 1
-	fileName := parts[index] + htmlSuffix
-	return fileName
 }
